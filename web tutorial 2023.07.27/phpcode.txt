@@ -1,0 +1,54 @@
+
+    <?php
+    $host="localhost";
+    $username="root";
+    $password="";
+    $db="university";
+    $conn = mysqli_connect($host,$username,$password,$db);
+
+    $id=$_REQUEST["id"];
+    $name=$_REQUEST["name"];
+    $email=$_REQUEST["email"];
+    $password=$_REQUEST["password"];
+
+    if($conn ->connect_error)
+    {
+        die("connection failed:".$conn ->connect_error);
+    }
+    
+    $sql="insert into students(id,name,email,password) values('".$id."','".$name."','".$email."','".$password."')";
+    if($conn->query($sql)===TRUE){
+        echo"Success";
+    }else{
+        echo"login error";
+    }
+    
+    $sql = "SELECT * from students";
+
+    $result=$conn->query($sql);
+    ?>
+    
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+        </tr>
+        <?php
+    if($result->num_rows>0){
+        while($row = $result->fetch_assoc()){?>
+            <tr>
+                <td><?php echo $row["id"]?></td>
+                <td><?php echo $row["name"]?></td>
+                <td><?php echo $row["email"]?></td>
+        </tr>
+        <?php
+            echo $row["name"] ." ".$row["email"]. "<br>";
+        }
+    }
+    else{
+        echo"no data";
+    }
+    ?>
+    </table>
+    ?>
